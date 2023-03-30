@@ -6,6 +6,9 @@
 #include <algorithm>
 #include <filesystem>
 #include <Windows.h>
+#include <atomic>
+#include <conio.h>
+#include <thread>
 
 #include "serialization.h"
 
@@ -42,6 +45,11 @@ void CreateNewConfig();
 std::vector<std::string> EnumerateFilesInRoot();
 std::vector<std::string> GetConfigs();
 void LoadConfig(GameWindow& p);
+
+//multithreading
+void exit_thread(); // quit program if q is pressed
+
+void sleepFor(long long time, long long print_interval);
 
 
 //template/pixel matching etc.

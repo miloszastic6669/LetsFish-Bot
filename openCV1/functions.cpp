@@ -54,7 +54,6 @@ COLORREF GetPixel(HDC* hdc, Coord pos)
     return GetPixel(*hdc, pos.x, pos.y);
 }
 
-
 int GetKeyCode(const char* keyName)
 {
     int vkCode = -1;
@@ -170,6 +169,8 @@ void SaveScreenshotToJPEG(const std::string& filename, int x, int y, int w, int 
     cv::imwrite(filename, screenshot, compression_params);
 }
 
+
+//config
 void CreateNewConfig()
 {
     std::cout << "Config name:\n";
@@ -261,6 +262,33 @@ void LoadConfig(GameWindow& p)
     
     deserializeFromJson(p, name);
 }
+
+//threading
+void exit_thread()
+{
+    while (true)
+    {
+        if (GetAsyncKeyState(GetKeyCode("Q")) & 1)
+        {
+            std::cout << "panic button pressed!\n";
+            exit(69420);
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+}
+
+void sleepFor(long long time_sec, long long print_interval)
+{
+    while(time_sec > 0)
+    {
+        std::cout << "\nrefreshing in -> " << time_sec << "s\n";
+        std::this_thread::sleep_for(std::chrono::seconds(print_interval));
+        time_sec -= print_interval;
+    }
+}
+
+
 
 cv::Mat convertToGray(cv::Mat& src)
 {

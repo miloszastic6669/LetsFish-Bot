@@ -52,6 +52,8 @@ void GameWindow::calculateAll()//calculates coordinates of all buttons and resiz
 	pullImg = ResizeMatByPercentage(pullImg, scale);
 	caughtImg = ResizeMatByPercentage(caughtImg, scale);
 	failedImg = ResizeMatByPercentage(failedImg, scale);
+	adImg = ResizeMatByPercentage(adImg, scale);
+
 }
 
 Coord GameWindow::getUpperLeft() const { return upperLeft; }
@@ -107,6 +109,16 @@ bool GameWindow::canPull(HWND* hwnd)
 	return ContainsImage(pullImg, game);
 }
 
+bool GameWindow::canCloseAds(HWND* hwnd)
+{
+	int x = RatioToCoord(adImgULRatio).x;
+	int y = RatioToCoord(adImgULRatio).y;
+	int w = abs(RatioToCoord(adImgULRatio).x - RatioToCoord(adImgBRRatio).x);
+	int h = abs(RatioToCoord(adImgULRatio).y - RatioToCoord(adImgBRRatio).y);
+	const cv::Mat game = CaptureScreenMat(*hwnd, x, y, w, h);
+	return ContainsImage(adImg, game, 0.95);
+}
+
 bool GameWindow::isCatchingSpin(HDC* hdc, HWND* hwnd)
 {
 	COLORREF color = GetPixel(*hdc, getGreenBarRight().x, getGreenBarRight().y);
@@ -131,8 +143,6 @@ bool GameWindow::isCatching(HDC* hdc, HWND* hwnd)
 	
 
 }
-
-
 	
 bool GameWindow::isOnCaughtScreen(HWND* hwnd)
 {

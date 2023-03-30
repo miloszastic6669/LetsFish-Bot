@@ -75,7 +75,7 @@ void PressKey(char key) {
 	SendInput(1, &input, sizeof(INPUT));
 }
 
-void PressKeyNew(char key)
+void PressKeyNew(char key)//works more often than PressKey()
 {
 	UINT mappedkey;
 	INPUT input = { 0 };
