@@ -115,6 +115,7 @@ int mainBot(GameWindow* windowData, gameInteraction* c, HWND* hwnd, HDC* hdc, in
 				std::this_thread::sleep_for(std::chrono::milliseconds(10));
 				if (windowData->canCast(hwnd))//in case the first cast call missed
 					c->cast();
+				
 			}
 			std::cout << "can pull\n";
 			c->pull(hwnd, hdc, stop_running);

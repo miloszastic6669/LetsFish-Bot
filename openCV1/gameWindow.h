@@ -70,14 +70,19 @@ private:
 
 	const Ratio adImgULRatio = { 0.39356984478935697f, 0.0048484848484848485f };
 	const Ratio adImgBRRatio = { 0.4623059866962306f, 0.044848484848484846f };
+
+	const Ratio lvlUpULRatio = { 0.4124168514412417f, 0.14909090909090908f };
+	const Ratio lvlUpBRRatio = { 0.5266075388026608f, 0.18424242424242424f };
+
 	
 	//needle images taken on chrome zoom 125% 2560x1440 Monitor
 	cv::Mat castImg = cv::imread("assets/cast.jpg");
 	cv::Mat pullImg = cv::imread("assets/pull.jpg");
 	cv::Mat caughtImg = cv::imread("assets/caught.jpg");
 	cv::Mat failedImg = cv::imread("assets/failed.jpg");
-	cv::Mat adImg = cv::imread("assets/ad.jpg");
-	
+	cv::Mat adImg = cv::imread("assets/ad.jpg"); // not working
+	cv::Mat lvlUpImg = cv::imread("assets/lvlup.jpg");
+
 	void calcPullButton();
 	void calcExitCaughtButton();
 	void calcGreenBar();
@@ -112,6 +117,7 @@ public:
 	bool isCatchingSpin(HDC* hdc, HWND* hwnd);
 	bool isOnCaughtScreen(HWND* hwnd);
 	bool isOnFailedScreen(HWND* hwnd);
+	bool isOnLvlUpScreen(HWND* hwnd);
 
 	GameWindow& operator=(const GameWindow& rhs)
 	{

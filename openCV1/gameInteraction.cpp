@@ -58,8 +58,7 @@ void gameInteraction::pull(HWND* hwnd, HDC* hdc, std::atomic<bool>* stop_running
 
 		//check whether press or release
 		//rgb press: (61,99,135)
-		IsSimilarColor(colorBar, 61, 99, 135, 1) ? MouseLeftDown() : MouseLeftUp();
-
+		IsSimilarColor(colorBar, 66, 99, 135, 6) ? MouseLeftDown() : MouseLeftUp();
 	}
 }
 

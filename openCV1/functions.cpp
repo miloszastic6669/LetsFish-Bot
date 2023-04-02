@@ -169,7 +169,6 @@ void SaveScreenshotToJPEG(const std::string& filename, int x, int y, int w, int 
     cv::imwrite(filename, screenshot, compression_params);
 }
 
-
 //config
 void CreateNewConfig()
 {
@@ -201,6 +200,8 @@ void CreateNewConfig()
         Sleep(20);
     }
     serializeToJson(p, name);
+    std::cin.clear();
+    std::cin.ignore();
 }
 
 std::vector<std::string> EnumerateFilesInRoot()
@@ -278,16 +279,43 @@ void exit_thread()
     }
 }
 
-void sleepFor(long long time_sec, long long print_interval)
+void lvlup_thread(GameWindow* d, std::atomic<bool>* stop_bool)
 {
-    while(time_sec > 0)
+    HWND hwnd = GetDesktopWindow();
+    std::this_thread::sleep_for(std::chrono::seconds(30));
+    std::cout << "started looking for lvl up screen\n";
+    while(true)
     {
-        std::cout << "\nrefreshing in -> " << time_sec << "s\n";
-        std::this_thread::sleep_for(std::chrono::seconds(print_interval));
-        time_sec -= print_interval;
+        if (d->isOnLvlUpScreen(&hwnd))
+            *stop_bool = true;
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(75));
     }
 }
 
+void sleepFor(long long time_sec, long long print_interval_sec, std::atomic<bool>* stop_running, GameWindow* d)
+{    
+    HWND hwnd = GetDesktopWindow();
+    using namespace std::chrono;
+    while(time_sec > 0)
+    {
+        std::cout << "\nrefreshing in -> " << time_sec << "s\n";
+        
+        auto start = high_resolution_clock::now();
+        while(duration_cast<seconds>(high_resolution_clock::now() - start).count() < print_interval_sec)
+        {
+            if (d->isOnLvlUpScreen(&hwnd))//reload the page if leveled up
+            {
+                std::cout << "leveled up!\n";
+                return;
+            }
+
+            std::this_thread::sleep_for(milliseconds(100));
+        }
+        //std::this_thread::sleep_for(seconds(print_interval_sec));
+        time_sec -= print_interval_sec;
+    }
+}
 
 
 cv::Mat convertToGray(cv::Mat& src)

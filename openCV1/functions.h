@@ -48,8 +48,10 @@ void LoadConfig(GameWindow& p);
 
 //multithreading
 void exit_thread(); // quit program if q is pressed
+void lvlup_thread(GameWindow* d, std::atomic<bool>* stop_bool); //  
 
-void sleepFor(long long time, long long print_interval);
+void sleepFor(long long time, long long print_interval, std::atomic<bool>* stop_running, GameWindow* d);
+
 
 
 //template/pixel matching etc.

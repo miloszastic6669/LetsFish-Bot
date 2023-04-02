@@ -53,6 +53,7 @@ void GameWindow::calculateAll()//calculates coordinates of all buttons and resiz
 	caughtImg = ResizeMatByPercentage(caughtImg, scale);
 	failedImg = ResizeMatByPercentage(failedImg, scale);
 	adImg = ResizeMatByPercentage(adImg, scale);
+	lvlUpImg = ResizeMatByPercentage(lvlUpImg, scale);
 
 }
 
@@ -164,6 +165,16 @@ bool GameWindow::isOnFailedScreen(HWND* hwnd)
 	const cv::Mat game = CaptureScreenMat(*hwnd, x, y, w, h);
 	return (ContainsImage(failedImg, game));
 
+}
+
+bool GameWindow::isOnLvlUpScreen(HWND* hwnd)
+{
+	int x = RatioToCoord(lvlUpULRatio).x;
+	int y = RatioToCoord(lvlUpULRatio).y;
+	int w = abs(RatioToCoord(lvlUpULRatio).x - RatioToCoord(lvlUpBRRatio).x);
+	int h = abs(RatioToCoord(lvlUpULRatio).y - RatioToCoord(lvlUpBRRatio).y);
+	const cv::Mat game = CaptureScreenMat(*hwnd, x, y, w, h);
+	return(ContainsImage(lvlUpImg, game));
 }
 
 cv::Mat GameWindow::getCastImg(HWND hwnd)
